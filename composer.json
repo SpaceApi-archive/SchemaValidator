@@ -1,0 +1,27 @@
+{
+  "name": "spaceapi/validator",
+  "description": "Validates a JSON against the SpaceAPI specification",
+  "minimum-stability": "stable",
+  "license": "BSD-3-Clause",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Romain Schmitz",
+      "homepage": "http://slopjong.de",
+      "role": "Developer"
+    }
+  ],
+  "homepage": "http://spaceapi.net",
+  "support": {
+    "irc": "irc://irc.freenode.net/spaceapi"
+  },
+  "require": {
+    "justinrainbow/json-schema": "1.3.6",
+    "phpunit/phpunit": "4.0.17"
+  },
+  "autoload": {
+    "psr-0": {
+      "SpaceApi": "src/"
+    }
+  }
+}
