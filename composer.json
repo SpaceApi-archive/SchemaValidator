@@ -16,7 +16,9 @@
     "irc": "irc://irc.freenode.net/spaceapi"
   },
   "require": {
-    "justinrainbow/json-schema": "1.3.6",
+    "justinrainbow/json-schema": "1.3.6"
+  },
+  "require-dev": {
     "phpunit/phpunit": "4.0.17"
   },
   "autoload": {
