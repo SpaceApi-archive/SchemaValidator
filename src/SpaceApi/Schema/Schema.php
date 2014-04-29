@@ -5,6 +5,8 @@ namespace SpaceApi\Schema;
 class Schema
 {
     const SCHEMA_OBJECT = 1;
+    const SCHEMA_LATEST = 'latest'; // can be stable or draft
+    const SCHEMA_STABLE = 'stable';
 
     protected $schemaRoot = '';
     protected $schemas = array();
