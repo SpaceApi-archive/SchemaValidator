@@ -18,11 +18,11 @@ class Schema
         // only the version number are needed, to improve the performance
         // we load the files on-demand
         $this->schemaRoot = realpath(
-            __DIR__ . '/../../../data/specs/13.json'
+            __DIR__ . '/../../../data/specs'
         );
 
         $draft_seen = false;
-        foreach (glob($this->schemaRoot ."*.json") as $filename) {
+        foreach (glob($this->schemaRoot ."/*.json") as $filename) {
             $is_draft = false;
             if (strpos($filename, '-draft') !== false) {
                 // skip empty draft file or if there was already one
@@ -42,15 +42,18 @@ class Schema
                 $this->draftVersion = $version;
             }
 
-            $this->version[] = $version;
+            $this->versions[] = $version;
         }
 
         sort($this->versions);
 
-        if ($draft_seen) {
-            $this->stableVersion = $this->versions[count($this->versions) - 2];
-        } else {
-            $this->stableVersion = $this->versions[count($this->versions) - 1];
+        $count = count($this->versions);
+        if ($count > 0) {
+            if ($draft_seen && $count > 1) {
+                $this->stableVersion = $this->versions[$count - 2];
+            } else {
+                $this->stableVersion = $this->versions[$count - 1];
+            }
         }
     }
 
@@ -98,7 +101,7 @@ class Schema
      * @param int $flags
      * @return string|object schema content
      */
-    public function get($version, $flags) {
+    public function get($version, $flags = 0) {
         if (array_key_exists($version, $this->schemas)) {
             $schema = $this->schemas[$version];
         } else {
