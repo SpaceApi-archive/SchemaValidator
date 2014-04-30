@@ -55,10 +55,20 @@ class Validator {
         }
 
         $this->jsonValidator->check($endpoint_data, $schema);
-        $this->result->addErrors(
-            $this->schema->getStableVersion(),
-            $this->jsonValidator->getErrors()
-        );
+
+        if ($this->jsonValidator->isValid()) {
+            $this->result->addValidVersion(
+                $this->schema->getStableVersion()
+            );
+        } else {
+            $this->result->addInvalidVersion(
+                $this->schema->getStableVersion()
+            );
+            $this->result->addErrors(
+                $this->schema->getStableVersion(),
+                $this->jsonValidator->getErrors()
+            );
+        }
 
         return $this->result;
     }
