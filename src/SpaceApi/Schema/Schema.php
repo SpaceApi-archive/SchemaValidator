@@ -12,6 +12,11 @@ class Schema
     protected $schemas = array();
     protected $stableVersion = 0;
     protected $draftVersion = 0;
+
+    /**
+     * @var array Sorted list of version numbers
+     * @todo write unit test to guarantee that the numbers are sorted
+     */
     protected $versions = array();
 
     function __construct() {
@@ -68,6 +73,14 @@ class Schema
     }
 
     /**
+     * Returns the latest version
+     * @return int latest version
+     */
+    public function getLatestVersion() {
+        return $this->versions[count($this->versions) - 1];
+    }
+
+    /**
      * Returns the draft version
      * @return int draft version
      */
@@ -101,9 +114,20 @@ class Schema
      *
      * @param int|string $version version number or the string 'latest' or 'stable'
      * @param int $flags
-     * @return string|object schema content
+     * @return string|object|null schema content, null if no schema could be found
      */
     public function get($version, $flags = 0) {
+
+        if (is_string($version)) {
+            if ($version === self::SCHEMA_STABLE) {
+                $version = $this->getStableVersion();
+            } else if ($version === self::SCHEMA_LATEST) {
+                $version = $this->getLatestVersion();
+            } else {
+                $version = 0;
+            }
+        }
+
         if (array_key_exists($version, $this->schemas)) {
             $schema = $this->schemas[$version];
         } else {
