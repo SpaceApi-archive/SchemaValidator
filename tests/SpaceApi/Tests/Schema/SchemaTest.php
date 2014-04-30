@@ -146,6 +146,21 @@ class SchemaTest extends \PHPUnit_Framework_TestCase
         return in_array("0.$version", $version_strings);
     }
 
+    public function testGetStableSchemaAsJson() {
+        $schema = new Schema();
+        $schema_string = $schema->get($schema->getStableVersion());
+        $this->assertEquals(true, is_string($schema_string));
+    }
+
+    public function testGetStableSchemaAsObject() {
+        $schema = new Schema();
+        $schema_object = $schema->get($schema->getStableVersion(), Schema::SCHEMA_OBJECT);
+        $this->assertEquals(true, is_object($schema_object));
+    }
+
+    // @todo add more tests for Schema::get(), use version numbers, use
+    //       the constants, use strings, use wrong numbers/strings
+
     public function setUp() {
         parent::setUp();
         $this->specsRoot = realpath(
