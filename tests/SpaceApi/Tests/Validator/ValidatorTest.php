@@ -19,7 +19,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($validator);
     }
 
-    public function testValidateStable() {
+    public function testValidateStableWithGoodJson() {
         $validator = new Validator();
 
         $schema = new Schema();
@@ -49,8 +49,14 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 JSON;
 
         $result = $validator->validateStableVersion($good_json);
-
         $this->assertEmpty($result->getErrors());
+    }
+
+    public function testValidateStableWithBadJson() {
+        $validator = new Validator();
+
+        $schema = new Schema();
+        $stableVersionWithPrefix = '0.' . $schema->getStableVersion();
 
         $bad_json = "{}";
 
