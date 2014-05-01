@@ -5,8 +5,8 @@ namespace SpaceApi\Validator;
 use JsonSchema\Validator as JsonSchemaValidator;
 use SpaceApi\Schema\Schema;
 
-class Validator {
-
+class Validator implements ValidatorInterface
+{
     /**
      * @var \JsonSchema\Validator
      */
@@ -27,22 +27,15 @@ class Validator {
         $this->schema = new Schema();
     }
 
-    /**
-     * @param int $version
-     * @param object|string $json SpaceApi endpoint contents
-     * @return ResultInterface
-     */
+    /** @inheritdoc */
     public function validate($version, $json) {
         $this->clearResult();
         // @todo implement
         return $this->result;
     }
 
-    /**
-     * @param object|string $endpoint_data SpaceApi endpoint contents
-     * @return ResultInterface
-     */
-    public function validateStableVersion($endpoint_data) {
+    /** @inheritdoc */
+    public function validateStableVersion($json) {
         $this->clearResult();
 
         $schema = $this->schema->get(
@@ -50,11 +43,11 @@ class Validator {
             Schema::SCHEMA_OBJECT
         );
 
-        if (is_string($endpoint_data)) {
-            $endpoint_data = json_decode($endpoint_data);
+        if (is_string($json)) {
+            $json = json_decode($json);
         }
 
-        $this->jsonValidator->check($endpoint_data, $schema);
+        $this->jsonValidator->check($json, $schema);
 
         if ($this->jsonValidator->isValid()) {
             $this->result->addValidVersion(
@@ -73,10 +66,7 @@ class Validator {
         return $this->result;
     }
 
-    /**
-     * @param object|string $json SpaceApi endpoint contents
-     * @return ResultInterface
-     */
+    /** @inheritdoc */
     public function validateAll($json) {
         $this->clearResult();
         // @todo implement
