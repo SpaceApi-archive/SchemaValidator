@@ -74,6 +74,7 @@ class Validator implements ValidatorInterface
     }
 
     protected function clearResult() {
+        $this->jsonValidator->reset();
         $this->result = new Result;
         $this->result->setDraftVersion(
             $this->schema->getDraftVersion()
