@@ -70,6 +70,48 @@ JSON;
         $this->assertNotContains($schema->getStableVersion(), $result->getValid());
     }
 
+    public function testValidateStableRoundTrip() {
+        $json = <<<JSON
+{
+    "api": "0.13",
+    "space": "Slopspace",
+    "logo": "http://your-space.org/img/logo.png",
+    "url": "http://your-space.org",
+    "location": {
+        "address": "Ulmer Strasse 255, 70327 Stuttgart, Germany",
+        "lon": 9.236,
+        "lat": 48.777
+    },
+    "contact": {
+        "twitter": "@spaceapi"
+    },
+    "issue_report_channels": [
+        "twitter"
+    ],
+    "state": {
+        "open": false
+    }
+}
+JSON;
+
+        $validator = new Validator();
+        $schema = new Schema();
+
+        $result = $validator->validateStableVersion($json);
+        $this->assertEmpty($result->getErrors());
+        $this->assertContains($schema->getStableVersion(), $result->getValid());
+        $this->assertNotContains($schema->getStableVersion(), $result->getInvalid());
+
+        $object = json_decode($json);
+        unset($object->space);
+        $json = json_encode($object);
+
+        $result = $validator->validateStableVersion($json);
+        $this->assertNotEmpty($result->getErrors());
+        $this->assertNotContains($schema->getStableVersion(), $result->getValid());
+        $this->assertContains($schema->getStableVersion(), $result->getInvalid());
+    }
+
     public function setUp() {
         parent::setUp();
         $this->specsRoot = realpath(
