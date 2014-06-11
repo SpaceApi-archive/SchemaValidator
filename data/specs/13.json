@@ -240,7 +240,7 @@
           "type":"string"
         },
         "facebook":{
-          "description":"Facebook account.",
+          "description":"Facebook account URL.",
           "required":false,
           "type":"string"
         },
@@ -250,7 +250,7 @@
           "type":"object",
           "properties":{
             "plus":{
-              "description":"Google plus.",
+              "description":"Google plus URL.",
               "required":false,
               "type":"string"
             }
