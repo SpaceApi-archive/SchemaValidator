@@ -10,4 +10,5 @@ Unit testing
 Packaging as a phar
 -------------------
 
-[Packaging Your Apps with Phar](http://www.sitepoint.com/packaging-your-apps-with-phar/)
+* [Packaging Your Apps with Phar](http://www.sitepoint.com/packaging-your-apps-with-phar/)
+* [A command-line tool that converts your php project into a .phar file](https://github.com/cbednarski/pharcc)
